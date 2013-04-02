@@ -54,7 +54,7 @@ public class SensGUIMainFrame extends javax.swing.JFrame {
     public void removeDisconnected() {
         ArrayList<SensorPanel> disc = new ArrayList<SensorPanel>();
         for (SensorPanel s : sensors) {
-            if (!s.getSensor().isConnected()) {
+            if (s.getSensor() == null || !s.getSensor().isConnected()) {
                 disc.add(s);
             }
         }
@@ -72,6 +72,7 @@ public class SensGUIMainFrame extends javax.swing.JFrame {
        adapter.connect();
        if (adapter.isConnected()) {
            SensorPanel panel = new SensorPanel(adapter);
+           adapter.addListener(panel);
            sensors.add(panel);
            refreshList();
        }

@@ -15,10 +15,15 @@
  */
 package org.thingml.sensgui.adapters;
 
+import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 
-public class DummySensGUIAdapter implements SensGUIAdapter {
+public class DummySensGUIAdapter extends AbstractSensGUIAdapter implements Runnable {
+
 
     private static int id = 1;
     
@@ -33,6 +38,7 @@ public class DummySensGUIAdapter implements SensGUIAdapter {
     @Override
     public boolean connect() {
         connected = true;
+        new Thread(this).start();
         return connected;
     }
 
@@ -49,6 +55,51 @@ public class DummySensGUIAdapter implements SensGUIAdapter {
     @Override
     public void showgui() {
         JOptionPane.showMessageDialog(null, "GUI for " + name);
+    }
+    
+    private static Random rand = new Random();
+    
+    public void run() {
+        
+        int i = 0;
+        
+        int bwavg = rand.nextInt(7000) + 1000;
+        int pingavg = rand.nextInt(500) + 10;
+        
+        while (connected) {
+            try {
+                Thread.sleep(rand.nextInt(150) + 100);
+                for (SensGUI l : listeners) l.activity();
+            } catch (InterruptedException ex) {
+                Logger.getLogger(DummySensGUIAdapter.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            bytecount += bwavg/5;
+
+            if (i == 2) {
+                for (SensGUI l : listeners) l.setPing(rand.nextInt(50) + pingavg);
+            }
+            i = (i+1)%4;
+        }
+    }
+    
+    public static ImageIcon icon = new ImageIcon(ChestBeltAdapter.class.getResource("/test48.png"));
+    
+    @Override
+    public ImageIcon getIcon() {
+        return icon;
+    }
+
+    @Override
+    public int getMaxBandwidth() {
+        return 10000;
+    }
+
+    long bytecount = 0;
+    
+    @Override
+    public long getReceivedByteCount() {
+        return bytecount;
     }
     
 }

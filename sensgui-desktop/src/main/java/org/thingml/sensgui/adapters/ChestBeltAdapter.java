@@ -15,16 +15,19 @@
  */
 package org.thingml.sensgui.adapters;
 
+import javax.swing.ImageIcon;
 import org.thingml.chestbelt.desktop.ChestBeltMainFrame;
 import org.thingml.chestbelt.driver.ChestBelt;
 import org.thingml.chestbelt.driver.ChestBeltListener;
+import org.thingml.rtsync.core.ITimeSynchronizerLogger;
 
-public class ChestBeltAdapter implements SensGUIAdapter, ChestBeltListener{
+public class ChestBeltAdapter extends AbstractSensGUIAdapter implements ChestBeltListener, ITimeSynchronizerLogger {
 
     protected ChestBelt sensor = null;
     protected ChestBeltMainFrame gui = new ChestBeltMainFrame();
     
     protected String name = "ChestBelt ???";
+
     
     public ChestBeltAdapter() {
         gui.setVisible(false);
@@ -41,6 +44,8 @@ public class ChestBeltAdapter implements SensGUIAdapter, ChestBeltListener{
         if (sensor == null) return false;
         sensor.addChestBeltListener(this);
         gui.do_connect(sensor);
+        sensor.getTimeSynchronizer().addLogger(this);
+        sensor.getSerialNumber();
         return true;
     }
 
@@ -53,6 +58,11 @@ public class ChestBeltAdapter implements SensGUIAdapter, ChestBeltListener{
     public void disconnect() {
         sensor.close();
         gui.tryToCloseSerialPort();
+        if (gui != null) {
+            gui.setVisible(false);
+            gui.dispose();
+            gui = null;
+        }
         sensor = null;
     }
 
@@ -65,6 +75,7 @@ public class ChestBeltAdapter implements SensGUIAdapter, ChestBeltListener{
     @Override
     public void cUSerialNumber(long value, int timestamp) {
         name = "ChestBelt " + value;
+        for (SensGUI l : listeners) l.refreshSensorView();
     }
 
     @Override
@@ -74,17 +85,17 @@ public class ChestBeltAdapter implements SensGUIAdapter, ChestBeltListener{
 
     @Override
     public void batteryStatus(int value, int timestamp) {
-
+        notify_Activity(50);
     }
 
     @Override
     public void indication(int value, int timestamp) {
-
+        notify_Activity(25);
     }
 
     @Override
     public void status(int value, int timestamp) {
-
+        notify_Activity(25);
     }
 
     @Override
@@ -94,17 +105,22 @@ public class ChestBeltAdapter implements SensGUIAdapter, ChestBeltListener{
 
     @Override
     public void referenceClockTime(long value, boolean seconds) {
-
+        notify_Activity(40);
     }
 
     @Override
     public void fullClockTimeSync(long value, boolean seconds) {
-
+        notify_Activity(30);
+    }
+    
+    @Override
+    public void referenceClockTimeSync(int timeSyncSeqNum, long value) {
+         notify_Activity(50);
     }
 
     @Override
     public void heartRate(int value, int timestamp) {
-
+        notify_Activity(50);
     }
 
     @Override
@@ -114,7 +130,7 @@ public class ChestBeltAdapter implements SensGUIAdapter, ChestBeltListener{
 
     @Override
     public void eCGData(int value) {
-
+        notify_Activity(2);
     }
 
     @Override
@@ -124,12 +140,12 @@ public class ChestBeltAdapter implements SensGUIAdapter, ChestBeltListener{
 
     @Override
     public void eCGRaw(int value, int timestamp) {
-
+        notify_Activity(2);
     }
 
     @Override
     public void eMGData(int value) {
-
+        notify_Activity(1);
     }
 
     @Override
@@ -139,63 +155,143 @@ public class ChestBeltAdapter implements SensGUIAdapter, ChestBeltListener{
 
     @Override
     public void eMGRaw(int value, int timestamp) {
-
+        notify_Activity(1);
     }
 
     @Override
     public void eMGRMS(int channelA, int channelB, int timestamp) {
-
+        notify_Activity(20);
     }
 
     @Override
     public void gyroPitch(int value, int timestamp) {
-
+        notify_Activity(3);
     }
 
     @Override
     public void gyroRoll(int value, int timestamp) {
-
+        notify_Activity(3);
     }
 
     @Override
     public void gyroYaw(int value, int timestamp) {
-
+        notify_Activity(3);
     }
 
     @Override
     public void accLateral(int value, int timestamp) {
-
+        notify_Activity(3);
     }
 
     @Override
     public void accLongitudinal(int value, int timestamp) {
-
+        notify_Activity(3);
     }
 
     @Override
     public void accVertical(int value, int timestamp) {
-
+        notify_Activity(3);
     }
 
     @Override
     public void rawActivityLevel(int value, int timestamp) {
-
+         notify_Activity(25);
     }
 
     @Override
     public void combinedIMU(int ax, int ay, int az, int gx, int gy, int gz, int timestamp) {
-
+        notify_Activity(10);
     }
 
     @Override
     public void skinTemperature(int value, int timestamp) {
-
+        notify_Activity(50);
     }
 
     @Override
     public void connectionLost() {
         gui.tryToCloseSerialPort();
         sensor = null;
+        for (SensGUI l : listeners) l.refreshSensorView();
+    }
+    
+    private int act_counter = 0;
+    private void notify_Activity(int weight) {
+        act_counter += weight;
+        if (act_counter > 100) {
+            for(SensGUI l : listeners) {
+                l.activity();
+            }
+            act_counter = 0;
+        }
+    }
+
+    public static ImageIcon icon = new ImageIcon(ChestBeltAdapter.class.getResource("/chestbelt48.png"));
+    
+    @Override
+    public ImageIcon getIcon() {
+        return icon;
+    }
+
+    @Override
+    public int getMaxBandwidth() {
+        return 11500;
+    }
+
+    @Override
+    public long getReceivedByteCount() {
+        if (sensor!=null) return sensor.getReceivedBytes();
+        else return 0;
+    }
+
+    @Override
+    public void timeSyncStart() {
+        
+    }
+
+    @Override
+    public void timeSyncReady() {
+        
+    }
+
+    @Override
+    public void timeSyncStop() {
+        
+    }
+
+    @Override
+    public void timeSyncPingTimeout(int pingSeqNum, long tmt) {
+       
+    }
+
+    @Override
+    public void timeSyncWrongSequence(int pingSeqNum, int pongSeqNum) {
+       
+    }
+
+    @Override
+    public void timeSyncPong(int delay, int dtt, int dtr, int dts) {
+        for(SensGUI l : listeners) l.setPing(delay);
+    }
+
+    @Override
+    public void timeSyncDtsFilter(int dts) {
+       
+    }
+
+    @Override
+    public void timeSyncErrorFilter(int error) {
+       
+    }
+
+    @Override
+    public void timeSyncLog(String time, long ts, long tmt, long tmr, long delay, long offs, long error, long errorSum, long zeroOffset, long regOffsMs, int skipped, long tsOffset) {
+        
+    }
+
+    @Override
+    public void timeSyncPongRaw(String time, int rcvPingSeqNum, int expectedPingSeqNum, long tmt, long tmr, long ts) {
+        
     }
     
 }

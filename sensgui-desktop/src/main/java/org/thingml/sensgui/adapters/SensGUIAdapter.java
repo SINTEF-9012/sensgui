@@ -19,14 +19,27 @@
  */
 package org.thingml.sensgui.adapters;
 
+import javax.swing.ImageIcon;
+
 /**
  *
  * @author ffl
  */
 public interface SensGUIAdapter {
+    
+    public void addListener(SensGUI sensgui);
+    public void removeListener(SensGUI sensgui);
+    public void clearListeners();
+    
     public String getSensorName();
     public boolean connect();
     public boolean isConnected();
     public void disconnect();
     public void showgui();
+    
+    public ImageIcon getIcon();
+    public int getMaxBandwidth();
+    
+    public long getReceivedByteCount();
+    
 }
