@@ -192,7 +192,7 @@
     <Component class="javax.swing.JLabel" name="jLabelActivity">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/red.png"/>
+          <Image iconType="3" name="/red16.png"/>
         </Property>
       </Properties>
     </Component>

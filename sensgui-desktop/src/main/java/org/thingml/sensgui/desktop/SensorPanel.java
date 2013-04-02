@@ -24,9 +24,9 @@ import org.thingml.traale.desktop.TraaleFrame;
 
 public class SensorPanel extends javax.swing.JPanel implements SensGUI {
 
-    public static ImageIcon icon_red = new ImageIcon(SensorPanel.class.getResource("/red.png"));
-    public static ImageIcon icon_green = new ImageIcon(SensorPanel.class.getResource("/green.png"));
-    public static ImageIcon icon_yellow = new ImageIcon(SensorPanel.class.getResource("/yellow.png"));
+    public static ImageIcon icon_red = new ImageIcon(SensorPanel.class.getResource("/red16.png"));
+    public static ImageIcon icon_green = new ImageIcon(SensorPanel.class.getResource("/green16.png"));
+    public static ImageIcon icon_yellow = new ImageIcon(SensorPanel.class.getResource("/yellow16.png"));
     
     protected SensGUIAdapter sensor;
 
@@ -131,7 +131,7 @@ public class SensorPanel extends javax.swing.JPanel implements SensGUI {
 
         jLabelPing.setText("??? ms");
 
-        jLabelActivity.setIcon(new javax.swing.ImageIcon(getClass().getResource("/red.png"))); // NOI18N
+        jLabelActivity.setIcon(new javax.swing.ImageIcon(getClass().getResource("/red16.png"))); // NOI18N
 
         jLabel3.setText("Activity :");
 
