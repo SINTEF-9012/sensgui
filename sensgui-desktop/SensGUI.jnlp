@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp spec="1.0" codebase="http://dist.thingml.org/sensgui/" >
+   <information>
+      <title>SINTEF Sensor GUI</title>
+      <vendor>SINTEF</vendor>
+    
+    <!-- allow app to run without Internet access -->
+    <offline-allowed/>
+    
+    <shortcut online="false">
+      <desktop/>
+      <menu submenu="SensGUI"/>
+    </shortcut>
+
+   </information>
+   <resources>
+      <jar href="SensGUI.jar" main="true" />
+   </resources>
+
+   
+   <application-desc name="SensGUI" main-class="org.thingml.sensgui.desktop.SensGUIMainFrame">
+   		<update check="background" policy="prompt-update"/>
+   </application-desc>
+   
+   
+   <security>
+     <all-permissions/>
+  </security>
+</jnlp>
