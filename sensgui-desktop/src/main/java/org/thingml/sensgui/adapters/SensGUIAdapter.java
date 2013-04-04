@@ -19,6 +19,7 @@
  */
 package org.thingml.sensgui.adapters;
 
+import java.io.File;
 import javax.swing.ImageIcon;
 
 /**
@@ -41,5 +42,8 @@ public interface SensGUIAdapter {
     public int getMaxBandwidth();
     
     public long getReceivedByteCount();
+    
+    public void startLogging(File folder);
+    public void stopLogging();
     
 }

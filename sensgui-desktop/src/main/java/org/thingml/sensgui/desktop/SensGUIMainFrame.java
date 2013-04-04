@@ -19,7 +19,12 @@
  */
 package org.thingml.sensgui.desktop;
 
+import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.prefs.Preferences;
+import javax.swing.JFileChooser;
 import org.thingml.sensgui.adapters.ChestBeltAdapter;
 import org.thingml.sensgui.adapters.DummySensGUIAdapter;
 import org.thingml.sensgui.adapters.IsensUAdapter;
@@ -33,11 +38,73 @@ public class SensGUIMainFrame extends javax.swing.JFrame {
 
     protected ArrayList<SensorPanel> sensors = new ArrayList<SensorPanel>();
     
+    
+    JFileChooser chooser = new JFileChooser();
+    Preferences prefs = Preferences.userRoot().node(this.getClass().getName());
+    
     /**
      * Creates new form SensGUIMainFrame
      */
     public SensGUIMainFrame() {
         initComponents();
+        chooser.setFileSelectionMode( JFileChooser.DIRECTORIES_ONLY);
+        chooser.setMultiSelectionEnabled(false);
+        
+        jMenuItemStopLog.setEnabled(false);
+    }
+    
+    public String createSessionName() {
+        SimpleDateFormat timestampFormat = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
+        return timestampFormat.format( Calendar.getInstance().getTime());
+    }
+    
+    public void startLogging() {
+
+        try {
+            
+            File f = new File(prefs.get("LogFolder", ""));
+            if (f.exists() && f.isDirectory()) chooser.setCurrentDirectory(f);
+        
+            do {
+                int result = chooser.showDialog(this, "Start Logging");
+                if (result != JFileChooser.APPROVE_OPTION) return;
+            }
+            while (!chooser.getSelectedFile().exists() || !chooser.getSelectedFile().isDirectory());
+            
+            prefs.put("LogFolder", chooser.getSelectedFile().getAbsolutePath());
+            
+            String sName = createSessionName();
+            File base_folder = new File(chooser.getSelectedFile(), sName);
+
+            // To avoid overwriting an exiting folder (in case several logs are created at the same time)
+           int i=1;
+           while (base_folder.exists()) {
+               base_folder = new File(chooser.getSelectedFile(), sName + "-" + i);
+               i++;
+           }
+
+           base_folder.mkdir();
+           
+           
+
+            for (SensorPanel s : sensors) {
+                if (s.includeInLog()) s.startLogging(base_folder);
+            }
+            jMenuItemStartLog.setEnabled(false);
+            jMenuItemStopLog.setEnabled(true);
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void stopLogging() {
+        for (SensorPanel s : sensors) {
+            if (s.includeInLog()) s.stopLogging();
+        }
+        
+        jMenuItemStartLog.setEnabled(true);
+        jMenuItemStopLog.setEnabled(false);
     }
     
     public void refreshList() {
@@ -90,9 +157,9 @@ public class SensGUIMainFrame extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         jPanelSensorList = new javax.swing.JPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
+        jMenuFile = new javax.swing.JMenu();
         jMenuItemExit = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
+        jMenuConnect = new javax.swing.JMenu();
         jMenuItemConnISenseU = new javax.swing.JMenuItem();
         jMenuItemConnChestBelt = new javax.swing.JMenuItem();
         jMenuItemConnectDummy = new javax.swing.JMenuItem();
@@ -101,13 +168,16 @@ public class SensGUIMainFrame extends javax.swing.JFrame {
         jMenuView = new javax.swing.JMenu();
         jMenuItemRefresh = new javax.swing.JMenuItem();
         jMenuItemRMDisconnected = new javax.swing.JMenuItem();
+        jMenuLog = new javax.swing.JMenu();
+        jMenuItemStartLog = new javax.swing.JMenuItem();
+        jMenuItemStopLog = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanelSensorList.setLayout(new javax.swing.BoxLayout(jPanelSensorList, javax.swing.BoxLayout.PAGE_AXIS));
         jScrollPane2.setViewportView(jPanelSensorList);
 
-        jMenu1.setText("File");
+        jMenuFile.setText("File");
 
         jMenuItemExit.setText("Exit");
         jMenuItemExit.addActionListener(new java.awt.event.ActionListener() {
@@ -115,11 +185,11 @@ public class SensGUIMainFrame extends javax.swing.JFrame {
                 jMenuItemExitActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItemExit);
+        jMenuFile.add(jMenuItemExit);
 
-        jMenuBar1.add(jMenu1);
+        jMenuBar1.add(jMenuFile);
 
-        jMenu2.setText("Connect");
+        jMenuConnect.setText("Connect");
 
         jMenuItemConnISenseU.setText("Connect ISenseU...");
         jMenuItemConnISenseU.addActionListener(new java.awt.event.ActionListener() {
@@ -127,7 +197,7 @@ public class SensGUIMainFrame extends javax.swing.JFrame {
                 jMenuItemConnISenseUActionPerformed(evt);
             }
         });
-        jMenu2.add(jMenuItemConnISenseU);
+        jMenuConnect.add(jMenuItemConnISenseU);
 
         jMenuItemConnChestBelt.setText("Connect ChestBelt...");
         jMenuItemConnChestBelt.addActionListener(new java.awt.event.ActionListener() {
@@ -135,7 +205,7 @@ public class SensGUIMainFrame extends javax.swing.JFrame {
                 jMenuItemConnChestBeltActionPerformed(evt);
             }
         });
-        jMenu2.add(jMenuItemConnChestBelt);
+        jMenuConnect.add(jMenuItemConnChestBelt);
 
         jMenuItemConnectDummy.setText("Connect Dummy...");
         jMenuItemConnectDummy.addActionListener(new java.awt.event.ActionListener() {
@@ -143,8 +213,8 @@ public class SensGUIMainFrame extends javax.swing.JFrame {
                 jMenuItemConnectDummyActionPerformed(evt);
             }
         });
-        jMenu2.add(jMenuItemConnectDummy);
-        jMenu2.add(jSeparator1);
+        jMenuConnect.add(jMenuItemConnectDummy);
+        jMenuConnect.add(jSeparator1);
 
         jMenuItemDisconnectAll.setText("Disconnect All");
         jMenuItemDisconnectAll.addActionListener(new java.awt.event.ActionListener() {
@@ -152,9 +222,9 @@ public class SensGUIMainFrame extends javax.swing.JFrame {
                 jMenuItemDisconnectAllActionPerformed(evt);
             }
         });
-        jMenu2.add(jMenuItemDisconnectAll);
+        jMenuConnect.add(jMenuItemDisconnectAll);
 
-        jMenuBar1.add(jMenu2);
+        jMenuBar1.add(jMenuConnect);
 
         jMenuView.setText("View");
 
@@ -175,6 +245,26 @@ public class SensGUIMainFrame extends javax.swing.JFrame {
         jMenuView.add(jMenuItemRMDisconnected);
 
         jMenuBar1.add(jMenuView);
+
+        jMenuLog.setText("Log");
+
+        jMenuItemStartLog.setText("Start Logging");
+        jMenuItemStartLog.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemStartLogActionPerformed(evt);
+            }
+        });
+        jMenuLog.add(jMenuItemStartLog);
+
+        jMenuItemStopLog.setText("Stop Logging");
+        jMenuItemStopLog.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemStopLogActionPerformed(evt);
+            }
+        });
+        jMenuLog.add(jMenuItemStopLog);
+
+        jMenuBar1.add(jMenuLog);
 
         setJMenuBar(jMenuBar1);
 
@@ -223,6 +313,14 @@ public class SensGUIMainFrame extends javax.swing.JFrame {
         refreshList();
     }//GEN-LAST:event_jMenuItemRefreshActionPerformed
 
+    private void jMenuItemStartLogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemStartLogActionPerformed
+        startLogging();
+    }//GEN-LAST:event_jMenuItemStartLogActionPerformed
+
+    private void jMenuItemStopLogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemStopLogActionPerformed
+        stopLogging();
+    }//GEN-LAST:event_jMenuItemStopLogActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -243,9 +341,9 @@ public class SensGUIMainFrame extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenu jMenuConnect;
+    private javax.swing.JMenu jMenuFile;
     private javax.swing.JMenuItem jMenuItemConnChestBelt;
     private javax.swing.JMenuItem jMenuItemConnISenseU;
     private javax.swing.JMenuItem jMenuItemConnectDummy;
@@ -253,6 +351,9 @@ public class SensGUIMainFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItemExit;
     private javax.swing.JMenuItem jMenuItemRMDisconnected;
     private javax.swing.JMenuItem jMenuItemRefresh;
+    private javax.swing.JMenuItem jMenuItemStartLog;
+    private javax.swing.JMenuItem jMenuItemStopLog;
+    private javax.swing.JMenu jMenuLog;
     private javax.swing.JMenu jMenuView;
     private javax.swing.JPanel jPanelSensorList;
     private javax.swing.JScrollPane jScrollPane2;

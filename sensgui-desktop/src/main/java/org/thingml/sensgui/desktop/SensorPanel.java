@@ -15,6 +15,7 @@
  */
 package org.thingml.sensgui.desktop;
 
+import java.io.File;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
@@ -32,6 +33,30 @@ public class SensorPanel extends javax.swing.JPanel implements SensGUI {
 
     public SensGUIAdapter getSensor() {
         return sensor;
+    }
+    
+    public boolean includeInLog() {
+        return (sensor != null && sensor.isConnected() && jCheckBoxLog.isSelected());
+    }
+    
+    public void startLogging(File base_folder) {
+        if (!includeInLog()) return;
+        String sName = sensor.getSensorName().replace(" ", "_").trim();
+        File folder = new File(base_folder, sName);
+        
+        // To avoid overwriting an exiting folder (in case several sensors have the same names)
+        int i=1;
+        while (folder.exists()) {
+            folder = new File(base_folder, sName + "-" + i);
+            i++;
+        }
+
+        folder.mkdir();
+        sensor.startLogging(folder);
+    }
+    
+     public void stopLogging() {
+        if (sensor != null) sensor.stopLogging();
     }
     
     public SensorPanel(SensGUIAdapter sensor) {

@@ -15,6 +15,7 @@
  */
 package org.thingml.sensgui.adapters;
 
+import java.io.File;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -100,6 +101,16 @@ public class DummySensGUIAdapter extends AbstractSensGUIAdapter implements Runna
     @Override
     public long getReceivedByteCount() {
         return bytecount;
+    }
+
+    @Override
+    public void startLogging(File folder) {
+        System.out.println("DEBUG: Start logging for sensor " + getSensorName() + " in folder " + folder);
+    }
+
+    @Override
+    public void stopLogging() {
+        System.out.println("DEBUG: Stop logging for sensor " + getSensorName());
     }
     
 }

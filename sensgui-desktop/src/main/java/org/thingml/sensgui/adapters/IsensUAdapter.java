@@ -15,9 +15,11 @@
  */
 package org.thingml.sensgui.adapters;
 
+import java.io.File;
 import javax.swing.ImageIcon;
 import org.thingml.rtsync.core.ITimeSynchronizerLogger;
 import org.thingml.traale.desktop.BLEExplorerDialog;
+import org.thingml.traale.desktop.TraaleFileLogger;
 import org.thingml.traale.desktop.TraaleFrame;
 import org.thingml.traale.driver.Traale;
 import org.thingml.traale.driver.TraaleListener;
@@ -28,7 +30,7 @@ public class IsensUAdapter extends AbstractSensGUIAdapter implements TraaleListe
     protected TraaleFrame gui = new TraaleFrame();
     protected Traale sensor = null;
     
-    protected String name = "ISenseU ???";
+    protected String name = "ISenseU XXX";
     
     public IsensUAdapter() {
         bledialog.setModal(true);
@@ -193,7 +195,7 @@ public class IsensUAdapter extends AbstractSensGUIAdapter implements TraaleListe
     }
     
     
-    public static ImageIcon icon = new ImageIcon(ChestBeltAdapter.class.getResource("/unknown48.png"));
+    public static ImageIcon icon = new ImageIcon(ChestBeltAdapter.class.getResource("/isenseu48.png"));
     
     @Override
     public ImageIcon getIcon() {
@@ -259,6 +261,25 @@ public class IsensUAdapter extends AbstractSensGUIAdapter implements TraaleListe
     @Override
     public void timeSyncPongRaw(String time, int rcvPingSeqNum, int expectedPingSeqNum, long tmt, long tmr, long ts) {
         
+    }
+    
+    TraaleFileLogger file_logger;
+
+   @Override
+    public void startLogging(File folder) {
+        if (file_logger != null) stopLogging();
+        file_logger = new TraaleFileLogger(folder, sensor);
+        sensor.addTraaleListener(file_logger);
+        file_logger.startLoggingInFolder(folder);
+    }
+
+    @Override
+    public void stopLogging() {
+        if (file_logger != null) {
+            file_logger.stopLogging();
+            sensor.removeTraaleListener(file_logger);   
+        }
+        file_logger = null;
     }
     
 }

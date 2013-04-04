@@ -15,7 +15,9 @@
  */
 package org.thingml.sensgui.adapters;
 
+import java.io.File;
 import javax.swing.ImageIcon;
+import org.thingml.chestbelt.desktop.ChestBeltFileLogger;
 import org.thingml.chestbelt.desktop.ChestBeltMainFrame;
 import org.thingml.chestbelt.driver.ChestBelt;
 import org.thingml.chestbelt.driver.ChestBeltListener;
@@ -26,7 +28,7 @@ public class ChestBeltAdapter extends AbstractSensGUIAdapter implements ChestBel
     protected ChestBelt sensor = null;
     protected ChestBeltMainFrame gui = new ChestBeltMainFrame();
     
-    protected String name = "ChestBelt ???";
+    protected String name = "ChestBelt XXX";
 
     
     public ChestBeltAdapter() {
@@ -292,6 +294,25 @@ public class ChestBeltAdapter extends AbstractSensGUIAdapter implements ChestBel
     @Override
     public void timeSyncPongRaw(String time, int rcvPingSeqNum, int expectedPingSeqNum, long tmt, long tmr, long ts) {
         
+    }
+
+    protected ChestBeltFileLogger file_logger;
+    
+    @Override
+    public void startLogging(File folder) {
+        if (file_logger != null) stopLogging();
+        file_logger = new ChestBeltFileLogger(folder, sensor, true);
+        sensor.addChestBeltListener(file_logger);
+        file_logger.startLoggingInFolder(folder);
+    }
+
+    @Override
+    public void stopLogging() {
+        if (file_logger != null) {
+            file_logger.stopLogging();
+            sensor.removeChestBeltListener(file_logger);   
+        }
+        file_logger = null;
     }
     
 }
