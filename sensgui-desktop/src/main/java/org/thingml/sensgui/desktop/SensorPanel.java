@@ -53,10 +53,12 @@ public class SensorPanel extends javax.swing.JPanel implements SensGUI {
 
         folder.mkdir();
         sensor.startLogging(folder);
+        jCheckBoxLog.setEnabled(false);
     }
     
      public void stopLogging() {
         if (sensor != null) sensor.stopLogging();
+        jCheckBoxLog.setEnabled(true);
     }
     
     public SensorPanel(SensGUIAdapter sensor) {

@@ -26,7 +26,7 @@
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItemConnISenseU">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Connect ISenseU..."/>
+                <Property name="text" type="java.lang.String" value="ISenseU..."/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemConnISenseUActionPerformed"/>
@@ -34,15 +34,23 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItemConnChestBelt">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Connect ChestBelt..."/>
+                <Property name="text" type="java.lang.String" value="ChestBelt..."/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemConnChestBeltActionPerformed"/>
               </Events>
             </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem1">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="EMG Proptotype..."/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem1ActionPerformed"/>
+              </Events>
+            </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItemConnectDummy">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Connect Dummy..."/>
+                <Property name="text" type="java.lang.String" value="Dummy sensor..."/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemConnectDummyActionPerformed"/>

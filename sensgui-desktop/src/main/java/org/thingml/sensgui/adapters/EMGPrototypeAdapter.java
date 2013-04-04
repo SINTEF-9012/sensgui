@@ -19,19 +19,20 @@ import java.io.File;
 import javax.swing.ImageIcon;
 import org.thingml.chestbelt.desktop.ChestBeltFileLogger;
 import org.thingml.chestbelt.desktop.ChestBeltMainFrame;
+import org.thingml.chestbelt.desktop.EMGPrototypeMainFrame;
 import org.thingml.chestbelt.driver.ChestBelt;
 import org.thingml.chestbelt.driver.ChestBeltListener;
 import org.thingml.rtsync.core.ITimeSynchronizerLogger;
 
-public class ChestBeltAdapter extends AbstractSensGUIAdapter implements ChestBeltListener, ITimeSynchronizerLogger {
+public class EMGPrototypeAdapter extends AbstractSensGUIAdapter implements ChestBeltListener, ITimeSynchronizerLogger {
 
     protected ChestBelt sensor = null;
-    protected ChestBeltMainFrame gui = new ChestBeltMainFrame();
+    protected EMGPrototypeMainFrame gui = new EMGPrototypeMainFrame();
     
-    protected String name = "ChestBelt XXX";
+    protected String name = "EMG XXX";
 
     
-    public ChestBeltAdapter() {
+    public EMGPrototypeAdapter() {
         gui.setVisible(false);
         gui.disableConnection();
     }
@@ -77,7 +78,7 @@ public class ChestBeltAdapter extends AbstractSensGUIAdapter implements ChestBel
 
     @Override
     public void cUSerialNumber(long value, int timestamp) {
-        name = "ChestBelt " + value;
+        name = "EMG " + value;
         for (SensGUI l : listeners) l.refreshSensorView();
     }
 
@@ -229,7 +230,7 @@ public class ChestBeltAdapter extends AbstractSensGUIAdapter implements ChestBel
         }
     }
 
-    public static ImageIcon icon = new ImageIcon(ChestBeltAdapter.class.getResource("/chestbelt48.png"));
+    public static ImageIcon icon = new ImageIcon(EMGPrototypeAdapter.class.getResource("/emg48.png"));
     
     @Override
     public ImageIcon getIcon() {

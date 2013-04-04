@@ -72,6 +72,8 @@ public class IsensUAdapter extends AbstractSensGUIAdapter implements TraaleListe
 
     @Override
     public void disconnect() {
+        if (file_logger != null) stopLogging();
+        
         if (gui != null) {
             gui.setVisible(false);
             gui.dispose();

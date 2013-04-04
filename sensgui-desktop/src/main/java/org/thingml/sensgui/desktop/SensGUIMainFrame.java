@@ -27,6 +27,7 @@ import java.util.prefs.Preferences;
 import javax.swing.JFileChooser;
 import org.thingml.sensgui.adapters.ChestBeltAdapter;
 import org.thingml.sensgui.adapters.DummySensGUIAdapter;
+import org.thingml.sensgui.adapters.EMGPrototypeAdapter;
 import org.thingml.sensgui.adapters.IsensUAdapter;
 import org.thingml.sensgui.adapters.SensGUIAdapter;
 
@@ -162,6 +163,7 @@ public class SensGUIMainFrame extends javax.swing.JFrame {
         jMenuConnect = new javax.swing.JMenu();
         jMenuItemConnISenseU = new javax.swing.JMenuItem();
         jMenuItemConnChestBelt = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItemConnectDummy = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         jMenuItemDisconnectAll = new javax.swing.JMenuItem();
@@ -191,7 +193,7 @@ public class SensGUIMainFrame extends javax.swing.JFrame {
 
         jMenuConnect.setText("Connect");
 
-        jMenuItemConnISenseU.setText("Connect ISenseU...");
+        jMenuItemConnISenseU.setText("ISenseU...");
         jMenuItemConnISenseU.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItemConnISenseUActionPerformed(evt);
@@ -199,7 +201,7 @@ public class SensGUIMainFrame extends javax.swing.JFrame {
         });
         jMenuConnect.add(jMenuItemConnISenseU);
 
-        jMenuItemConnChestBelt.setText("Connect ChestBelt...");
+        jMenuItemConnChestBelt.setText("ChestBelt...");
         jMenuItemConnChestBelt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItemConnChestBeltActionPerformed(evt);
@@ -207,7 +209,15 @@ public class SensGUIMainFrame extends javax.swing.JFrame {
         });
         jMenuConnect.add(jMenuItemConnChestBelt);
 
-        jMenuItemConnectDummy.setText("Connect Dummy...");
+        jMenuItem1.setText("EMG Proptotype...");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenuConnect.add(jMenuItem1);
+
+        jMenuItemConnectDummy.setText("Dummy sensor...");
         jMenuItemConnectDummy.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItemConnectDummyActionPerformed(evt);
@@ -321,6 +331,10 @@ public class SensGUIMainFrame extends javax.swing.JFrame {
         stopLogging();
     }//GEN-LAST:event_jMenuItemStopLogActionPerformed
 
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        addSensor(new EMGPrototypeAdapter());
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -344,6 +358,7 @@ public class SensGUIMainFrame extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenu jMenuConnect;
     private javax.swing.JMenu jMenuFile;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItemConnChestBelt;
     private javax.swing.JMenuItem jMenuItemConnISenseU;
     private javax.swing.JMenuItem jMenuItemConnectDummy;
