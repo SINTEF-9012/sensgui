@@ -33,6 +33,7 @@ public interface SensGUIAdapter {
     public void clearListeners();
     
     public String getSensorName();
+    public void identify();
     public boolean connect();
     public boolean isConnected();
     public void disconnect();

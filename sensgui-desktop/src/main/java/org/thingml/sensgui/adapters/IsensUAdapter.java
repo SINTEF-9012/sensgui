@@ -283,5 +283,12 @@ public class IsensUAdapter extends AbstractSensGUIAdapter implements TraaleListe
         }
         file_logger = null;
     }
+
+    @Override
+    public void identify() {
+        if (sensor != null) {
+            sensor.setAlertLevel(2);
+        }
+    }
     
 }

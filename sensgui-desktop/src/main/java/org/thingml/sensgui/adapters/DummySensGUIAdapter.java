@@ -113,4 +113,9 @@ public class DummySensGUIAdapter extends AbstractSensGUIAdapter implements Runna
         System.out.println("DEBUG: Stop logging for sensor " + getSensorName());
     }
     
+    @Override
+    public void identify() {
+        System.out.println(getSensorName() + " is Blinking!!!!!");
+    }
+    
 }

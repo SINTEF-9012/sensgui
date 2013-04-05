@@ -317,4 +317,11 @@ public class EMGPrototypeAdapter extends AbstractSensGUIAdapter implements Chest
         file_logger = null;
     }
     
+    @Override
+    public void identify() {
+        if (sensor != null) {
+            sensor.sendAlert(2);
+        }
+    }
+    
 }

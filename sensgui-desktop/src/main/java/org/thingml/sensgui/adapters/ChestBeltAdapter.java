@@ -316,4 +316,11 @@ public class ChestBeltAdapter extends AbstractSensGUIAdapter implements ChestBel
         file_logger = null;
     }
     
+    @Override
+    public void identify() {
+        if (sensor != null) {
+            sensor.sendAlert(2);
+        }
+    }
+    
 }
