@@ -121,7 +121,8 @@ public class SensorPanel extends javax.swing.JPanel implements SensGUI {
         jLabelSensorName.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelSensorName.setText("Sensor Name");
 
-        jButtonGUI.setText("Open GUI...");
+        jButtonGUI.setText("Configure...");
+        jButtonGUI.setActionCommand("");
         jButtonGUI.setPreferredSize(new java.awt.Dimension(95, 20));
         jButtonGUI.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -131,10 +132,16 @@ public class SensorPanel extends javax.swing.JPanel implements SensGUI {
 
         jLabelIcon.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/unknown48.png"))); // NOI18N
+        jLabelIcon.setToolTipText("Click to identify sensor");
         jLabelIcon.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jLabelIcon.setMaximumSize(new java.awt.Dimension(64, 64));
         jLabelIcon.setMinimumSize(new java.awt.Dimension(64, 64));
         jLabelIcon.setPreferredSize(new java.awt.Dimension(64, 64));
+        jLabelIcon.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabelIconMouseClicked(evt);
+            }
+        });
 
         jCheckBoxLog.setSelected(true);
         jCheckBoxLog.setText("Include in log");
@@ -188,8 +195,8 @@ public class SensorPanel extends javax.swing.JPanel implements SensGUI {
                         .addComponent(jCheckBoxLog)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButtonDisconnect, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButtonGUI, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButtonGUI, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(6, 6, 6))
         );
         layout.setVerticalGroup(
@@ -241,6 +248,10 @@ public class SensorPanel extends javax.swing.JPanel implements SensGUI {
     private void jCheckBoxLogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxLogActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jCheckBoxLogActionPerformed
+
+    private void jLabelIconMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelIconMouseClicked
+        if (sensor != null && sensor.isConnected()) sensor.identify();
+    }//GEN-LAST:event_jLabelIconMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonDisconnect;
