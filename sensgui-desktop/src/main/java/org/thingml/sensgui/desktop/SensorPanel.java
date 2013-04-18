@@ -121,7 +121,7 @@ public class SensorPanel extends javax.swing.JPanel implements SensGUI {
         jLabelSensorName.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelSensorName.setText("Sensor Name");
 
-        jButtonGUI.setText("Configure...");
+        jButtonGUI.setText("Open GUI...");
         jButtonGUI.setActionCommand("");
         jButtonGUI.setPreferredSize(new java.awt.Dimension(95, 20));
         jButtonGUI.addActionListener(new java.awt.event.ActionListener() {

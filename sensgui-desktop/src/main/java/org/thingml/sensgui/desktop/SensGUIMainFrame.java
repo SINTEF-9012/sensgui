@@ -176,6 +176,7 @@ public class SensGUIMainFrame extends javax.swing.JFrame {
         jMenuItemStopLog = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("SINTEF Sensor GUI");
 
         jPanelSensorList.setLayout(new javax.swing.BoxLayout(jPanelSensorList, javax.swing.BoxLayout.PAGE_AXIS));
         jScrollPane2.setViewportView(jPanelSensorList);
@@ -210,7 +211,7 @@ public class SensGUIMainFrame extends javax.swing.JFrame {
         });
         jMenuConnect.add(jMenuItemConnChestBelt);
 
-        jMenuItem1.setText("EMG Proptotype...");
+        jMenuItem1.setText("EMG Single Channel...");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem1ActionPerformed(evt);
