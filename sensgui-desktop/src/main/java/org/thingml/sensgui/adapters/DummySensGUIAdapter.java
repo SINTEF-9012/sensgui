@@ -66,6 +66,7 @@ public class DummySensGUIAdapter extends AbstractSensGUIAdapter implements Runna
         
         int bwavg = rand.nextInt(7000) + 1000;
         int pingavg = rand.nextInt(500) + 10;
+        int batt = 0;
         
         while (connected) {
             try {
@@ -80,7 +81,12 @@ public class DummySensGUIAdapter extends AbstractSensGUIAdapter implements Runna
             if (i == 2) {
                 for (SensGUI l : listeners) l.setPing(rand.nextInt(50) + pingavg);
             }
+            
+             if (i == 0) {
+                for (SensGUI l : listeners) l.setBattery(batt++);
+            }
             i = (i+1)%4;
+            if (batt > 100) batt = 0;
         }
     }
     

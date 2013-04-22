@@ -90,6 +90,7 @@ public class EMGPrototypeAdapter extends AbstractSensGUIAdapter implements Chest
     @Override
     public void batteryStatus(int value, int timestamp) {
         notify_Activity(50);
+        for (SensGUI l : listeners) l.setBattery(value);
     }
 
     @Override

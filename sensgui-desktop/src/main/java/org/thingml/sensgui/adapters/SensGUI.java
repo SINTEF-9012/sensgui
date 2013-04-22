@@ -22,5 +22,6 @@ package org.thingml.sensgui.adapters;
 public interface SensGUI {
     public void refreshSensorView();
     public void setPing(int value);
+    public void setBattery(int battery);
     public void activity();
 }

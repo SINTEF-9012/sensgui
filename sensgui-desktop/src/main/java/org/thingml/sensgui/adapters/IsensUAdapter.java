@@ -142,6 +142,7 @@ public class IsensUAdapter extends AbstractSensGUIAdapter implements TraaleListe
     @Override
     public void battery(int battery, int timestamp) {
         notify_Activity(100);
+        for (SensGUI l : listeners) l.setBattery(battery);
     }
 
     @Override

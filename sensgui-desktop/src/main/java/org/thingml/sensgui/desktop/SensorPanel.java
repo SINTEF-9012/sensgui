@@ -102,7 +102,8 @@ public class SensorPanel extends javax.swing.JPanel implements SensGUI {
         jLabel2 = new javax.swing.JLabel();
         jLabelPing = new javax.swing.JLabel();
         jLabelActivity = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
+        jLabelBatt = new javax.swing.JLabel();
+        jLabelBattVal = new javax.swing.JLabel();
 
         setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         setMaximumSize(new java.awt.Dimension(32767, 68));
@@ -167,7 +168,9 @@ public class SensorPanel extends javax.swing.JPanel implements SensGUI {
 
         jLabelActivity.setIcon(new javax.swing.ImageIcon(getClass().getResource("/red16.png"))); // NOI18N
 
-        jLabel3.setText("Activity :");
+        jLabelBatt.setIcon(new javax.swing.ImageIcon(getClass().getResource("/batt_uk.png"))); // NOI18N
+
+        jLabelBattVal.setText("??%");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -185,8 +188,10 @@ public class SensorPanel extends javax.swing.JPanel implements SensGUI {
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabelPing, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 84, Short.MAX_VALUE)
-                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 78, Short.MAX_VALUE)
+                        .addComponent(jLabelBatt)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabelBattVal, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabelActivity))
                     .addGroup(layout.createSequentialGroup()
@@ -197,7 +202,7 @@ public class SensorPanel extends javax.swing.JPanel implements SensGUI {
                         .addComponent(jButtonDisconnect, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButtonGUI, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(6, 6, 6))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -210,16 +215,22 @@ public class SensorPanel extends javax.swing.JPanel implements SensGUI {
                     .addComponent(jCheckBoxLog)
                     .addComponent(jButtonDisconnect, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButtonGUI, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 0, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jProgressBarBW, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabelActivity, javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabelPing)
-                            .addComponent(jLabel3))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jProgressBarBW, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabelActivity, javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabelPing)))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabelBattVal, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabelBatt, javax.swing.GroupLayout.Alignment.TRAILING))))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -259,8 +270,9 @@ public class SensorPanel extends javax.swing.JPanel implements SensGUI {
     private javax.swing.JCheckBox jCheckBoxLog;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabelActivity;
+    private javax.swing.JLabel jLabelBatt;
+    private javax.swing.JLabel jLabelBattVal;
     private javax.swing.JLabel jLabelIcon;
     private javax.swing.JLabel jLabelPing;
     private javax.swing.JLabel jLabelSensorName;
@@ -294,6 +306,40 @@ public class SensorPanel extends javax.swing.JPanel implements SensGUI {
             jLabelActivity.setIcon(icon_yellow);
         }
         act_toggle = !act_toggle;
+    }
+    
+    
+    public static ImageIcon batt_4 = new ImageIcon(SensorPanel.class.getResource("/batt_4.png"));
+    public static ImageIcon batt_3 = new ImageIcon(SensorPanel.class.getResource("/batt_3.png"));
+    public static ImageIcon batt_2 = new ImageIcon(SensorPanel.class.getResource("/batt_2.png"));
+    public static ImageIcon batt_1 = new ImageIcon(SensorPanel.class.getResource("/batt_1.png"));
+    public static ImageIcon batt_0 = new ImageIcon(SensorPanel.class.getResource("/batt_0.png"));
+    public static ImageIcon batt_uk = new ImageIcon(SensorPanel.class.getResource("/batt_uk.png"));
+
+    @Override
+    public void setBattery(int battery) {
+        if (battery >= 0) {
+            jLabelBattVal.setText("" + battery + "%");
+            if(battery > 75) {
+                jLabelBatt.setIcon(batt_4);
+            }
+            else if (battery > 50) {
+                jLabelBatt.setIcon(batt_3);
+            }
+            else if (battery > 30) {
+                jLabelBatt.setIcon(batt_2);
+            }
+            else if (battery > 10) {
+                jLabelBatt.setIcon(batt_1);
+            }
+            else {
+                jLabelBatt.setIcon(batt_0);
+            }
+        }
+        else {
+            jLabelBatt.setIcon(batt_uk);
+            jLabelBattVal.setText("??%");
+        }
     }
     
     class BitRateCounter extends Thread {
