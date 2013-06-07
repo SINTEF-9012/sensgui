@@ -33,6 +33,7 @@ public interface SensGUIAdapter {
     public void clearListeners();
     
     public String getSensorName();
+    public long getSensorId();
     public void identify();
     public boolean connect();
     public boolean isConnected();
@@ -46,5 +47,8 @@ public interface SensGUIAdapter {
     
     public void startLogging(File folder);
     public void stopLogging();
+    
+    public void startUDPLogging(String unit);
+    public void stopUDPLogging();
     
 }

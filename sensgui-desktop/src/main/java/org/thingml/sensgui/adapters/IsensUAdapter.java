@@ -20,6 +20,7 @@ import javax.swing.ImageIcon;
 import org.thingml.rtsync.core.ITimeSynchronizerLogger;
 import org.thingml.traale.desktop.BLEExplorerDialog;
 import org.thingml.traale.desktop.TraaleFileLogger;
+import org.thingml.traale.desktop.TraaleUDPLogger;
 import org.thingml.traale.desktop.TraaleFrame;
 import org.thingml.traale.driver.Traale;
 import org.thingml.traale.driver.TraaleListener;
@@ -31,6 +32,7 @@ public class IsensUAdapter extends AbstractSensGUIAdapter implements TraaleListe
     protected Traale sensor = null;
     
     protected String name = "ISenseU XXX";
+    protected long sensorId = -1;
     
     public IsensUAdapter() {
         bledialog.setModal(true);
@@ -42,6 +44,11 @@ public class IsensUAdapter extends AbstractSensGUIAdapter implements TraaleListe
     public String getSensorName() {
         System.out.println("getSensorName");
         return name;
+    }
+    
+    @Override
+    public long getSensorId() {
+        return sensorId;
     }
     
     @Override
@@ -73,6 +80,7 @@ public class IsensUAdapter extends AbstractSensGUIAdapter implements TraaleListe
     @Override
     public void disconnect() {
         if (file_logger != null) stopLogging();
+        if (udp_logger != null) stopUDPLogging();
         
         if (gui != null) {
             gui.setVisible(false);
@@ -168,6 +176,7 @@ public class IsensUAdapter extends AbstractSensGUIAdapter implements TraaleListe
     @Override
     public void serial_number(String value) {
         name = "ISenseU " + value;
+        sensorId = Long.valueOf(value);
         for (SensGUI l : listeners) l.refreshSensorView();
     }   
 
@@ -290,6 +299,25 @@ public class IsensUAdapter extends AbstractSensGUIAdapter implements TraaleListe
         if (sensor != null) {
             sensor.setAlertLevel(2);
         }
+    }
+
+    TraaleUDPLogger udp_logger;
+
+    @Override
+    public void startUDPLogging(String unit) {
+        if (udp_logger != null) stopUDPLogging();
+        udp_logger = new TraaleUDPLogger(unit, sensor);
+        sensor.addTraaleListener(udp_logger);
+        udp_logger.startLogging();
+    }
+
+    @Override
+    public void stopUDPLogging() {
+        if (udp_logger != null) {
+            udp_logger.stopLogging();
+            sensor.removeTraaleListener(udp_logger);   
+        }
+        udp_logger = null;
     }
     
 }

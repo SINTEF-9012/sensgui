@@ -18,6 +18,7 @@ package org.thingml.sensgui.adapters;
 import java.io.File;
 import javax.swing.ImageIcon;
 import org.thingml.chestbelt.desktop.ChestBeltFileLogger;
+import org.thingml.chestbelt.desktop.ChestBeltUDPLogger;
 import org.thingml.chestbelt.desktop.ChestBeltMainFrame;
 import org.thingml.chestbelt.desktop.EMGPrototypeMainFrame;
 import org.thingml.chestbelt.driver.ChestBelt;
@@ -30,6 +31,7 @@ public class EMGPrototypeAdapter extends AbstractSensGUIAdapter implements Chest
     protected EMGPrototypeMainFrame gui = new EMGPrototypeMainFrame();
     
     protected String name = "EMG XXX";
+    protected long sensorId = -1;
 
     
     public EMGPrototypeAdapter() {
@@ -40,6 +42,11 @@ public class EMGPrototypeAdapter extends AbstractSensGUIAdapter implements Chest
     @Override
     public String getSensorName() {
         return name;
+    }
+    
+    @Override
+    public long getSensorId() {
+        return sensorId;
     }
     
     public boolean connect() {
@@ -60,6 +67,7 @@ public class EMGPrototypeAdapter extends AbstractSensGUIAdapter implements Chest
     @Override
     public void disconnect() {
         if (file_logger != null) stopLogging();
+        if (udp_logger != null) stopUDPLogging();
         sensor.close();
         gui.tryToCloseSerialPort();
         if (gui != null) {
@@ -79,6 +87,7 @@ public class EMGPrototypeAdapter extends AbstractSensGUIAdapter implements Chest
     @Override
     public void cUSerialNumber(long value, int timestamp) {
         name = "EMG " + value;
+        sensorId = value;
         for (SensGUI l : listeners) l.refreshSensorView();
     }
 
@@ -323,6 +332,25 @@ public class EMGPrototypeAdapter extends AbstractSensGUIAdapter implements Chest
         if (sensor != null) {
             sensor.sendAlert(2);
         }
+    }
+
+    protected ChestBeltUDPLogger udp_logger;
+    
+    @Override
+    public void startUDPLogging(String unit) {
+        if (udp_logger != null) stopUDPLogging();
+        udp_logger = new ChestBeltUDPLogger(unit, sensor);
+        sensor.addChestBeltListener(udp_logger);
+        udp_logger.startLogging();
+    }
+
+    @Override
+    public void stopUDPLogging() {
+        if (udp_logger != null) {
+            udp_logger.stopLogging();
+            sensor.removeChestBeltListener(udp_logger);   
+        }
+        udp_logger = null;
     }
     
 }

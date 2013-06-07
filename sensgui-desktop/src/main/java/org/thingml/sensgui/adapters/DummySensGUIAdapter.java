@@ -30,12 +30,18 @@ public class DummySensGUIAdapter extends AbstractSensGUIAdapter implements Runna
     
     private boolean connected = false;
     private String name = "Dummy Sensor #" + (id++);
+    private long sensorId = -1;
     
     @Override
     public String getSensorName() {
         return name;
     }
 
+    @Override
+    public long getSensorId() {
+        return sensorId;
+    }
+    
     @Override
     public boolean connect() {
         connected = true;
@@ -122,6 +128,16 @@ public class DummySensGUIAdapter extends AbstractSensGUIAdapter implements Runna
     @Override
     public void identify() {
         System.out.println(getSensorName() + " is Blinking!!!!!");
+    }
+
+    @Override
+    public void startUDPLogging(String unit) {
+        System.out.println("DEBUG: Start UDP logging for sensor " + getSensorName() + " with unit ID " + unit);
+    }
+
+    @Override
+    public void stopUDPLogging() {
+        System.out.println("DEBUG: Stop UDP logging for sensor " + getSensorName());
     }
     
 }

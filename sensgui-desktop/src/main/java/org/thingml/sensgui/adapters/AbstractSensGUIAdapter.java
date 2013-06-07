@@ -32,6 +32,7 @@ public abstract class AbstractSensGUIAdapter implements SensGUIAdapter {
     public void removeListener(SensGUI sensgui) {
         listeners.remove(sensgui);
     }
+
     
     public void clearListeners() {
         listeners.clear();

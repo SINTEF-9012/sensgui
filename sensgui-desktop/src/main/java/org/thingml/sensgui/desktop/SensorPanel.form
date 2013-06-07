@@ -44,7 +44,7 @@
                       <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jLabelPing" min="-2" pref="80" max="-2" attributes="0"/>
-                      <EmptySpace pref="78" max="32767" attributes="0"/>
+                      <EmptySpace pref="72" max="32767" attributes="0"/>
                       <Component id="jLabelBatt" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jLabelBattVal" min="-2" pref="46" max="-2" attributes="0"/>
@@ -53,7 +53,9 @@
                   </Group>
                   <Group type="102" attributes="0">
                       <Component id="jLabelSensorName" max="32767" attributes="0"/>
-                      <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jCheckBoxUDPLog" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Component id="jCheckBoxLog" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="jButtonDisconnect" min="-2" max="-2" attributes="0"/>
@@ -77,6 +79,7 @@
                   <Component id="jCheckBoxLog" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jButtonDisconnect" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jButtonGUI" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jCheckBoxUDPLog" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
@@ -224,6 +227,15 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="??%"/>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JCheckBox" name="jCheckBoxUDPLog">
+      <Properties>
+        <Property name="selected" type="boolean" value="true"/>
+        <Property name="text" type="java.lang.String" value="Incl in UDP"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jCheckBoxUDPLogActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

@@ -39,6 +39,10 @@ public class SensorPanel extends javax.swing.JPanel implements SensGUI {
         return (sensor != null && sensor.isConnected() && jCheckBoxLog.isSelected());
     }
     
+    public boolean includeInUDPLog() {
+        return (sensor != null && sensor.isConnected() && jCheckBoxUDPLog.isSelected());
+    }
+    
     public void startLogging(File base_folder) {
         if (!includeInLog()) return;
         String sName = sensor.getSensorName().replace(" ", "_").trim();
@@ -59,6 +63,19 @@ public class SensorPanel extends javax.swing.JPanel implements SensGUI {
      public void stopLogging() {
         if (sensor != null) sensor.stopLogging();
         jCheckBoxLog.setEnabled(true);
+    }
+    
+    public void startUDPLogging() {
+        if (!includeInUDPLog()) return;
+        String sName = String.valueOf(sensor.getSensorId());
+
+        sensor.startUDPLogging(sName);
+        jCheckBoxUDPLog.setEnabled(false);
+    }
+    
+     public void stopUDPLogging() {
+        if (sensor != null) sensor.stopUDPLogging();
+        jCheckBoxUDPLog.setEnabled(true);
     }
     
     public SensorPanel(SensGUIAdapter sensor) {
@@ -104,6 +121,7 @@ public class SensorPanel extends javax.swing.JPanel implements SensGUI {
         jLabelActivity = new javax.swing.JLabel();
         jLabelBatt = new javax.swing.JLabel();
         jLabelBattVal = new javax.swing.JLabel();
+        jCheckBoxUDPLog = new javax.swing.JCheckBox();
 
         setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         setMaximumSize(new java.awt.Dimension(32767, 68));
@@ -172,6 +190,14 @@ public class SensorPanel extends javax.swing.JPanel implements SensGUI {
 
         jLabelBattVal.setText("??%");
 
+        jCheckBoxUDPLog.setSelected(true);
+        jCheckBoxUDPLog.setText("Incl in UDP");
+        jCheckBoxUDPLog.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBoxUDPLogActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -188,7 +214,7 @@ public class SensorPanel extends javax.swing.JPanel implements SensGUI {
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabelPing, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 78, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 72, Short.MAX_VALUE)
                         .addComponent(jLabelBatt)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabelBattVal, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -196,7 +222,9 @@ public class SensorPanel extends javax.swing.JPanel implements SensGUI {
                         .addComponent(jLabelActivity))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabelSensorName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(14, 14, 14)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jCheckBoxUDPLog)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jCheckBoxLog)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButtonDisconnect, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -214,7 +242,8 @@ public class SensorPanel extends javax.swing.JPanel implements SensGUI {
                     .addComponent(jLabelSensorName, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jCheckBoxLog)
                     .addComponent(jButtonDisconnect, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonGUI, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jButtonGUI, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jCheckBoxUDPLog))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
@@ -264,10 +293,15 @@ public class SensorPanel extends javax.swing.JPanel implements SensGUI {
         if (sensor != null && sensor.isConnected()) sensor.identify();
     }//GEN-LAST:event_jLabelIconMouseClicked
 
+    private void jCheckBoxUDPLogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxUDPLogActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jCheckBoxUDPLogActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonDisconnect;
     private javax.swing.JButton jButtonGUI;
     private javax.swing.JCheckBox jCheckBoxLog;
+    private javax.swing.JCheckBox jCheckBoxUDPLog;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabelActivity;

@@ -53,6 +53,7 @@ public class SensGUIMainFrame extends javax.swing.JFrame {
         chooser.setMultiSelectionEnabled(false);
         
         jMenuItemStopLog.setEnabled(false);
+        jMenuItemStopUDPLog.setEnabled(false);
     }
     
     public String createSessionName() {
@@ -107,6 +108,24 @@ public class SensGUIMainFrame extends javax.swing.JFrame {
         
         jMenuItemStartLog.setEnabled(true);
         jMenuItemStopLog.setEnabled(false);
+    }
+    
+    public void startUDPLogging() {
+
+        for (SensorPanel s : sensors) {
+            if (s.includeInUDPLog()) s.startUDPLogging();
+        }
+        jMenuItemStartUDPLog.setEnabled(false);
+        jMenuItemStopUDPLog.setEnabled(true);
+    }
+    
+    public void stopUDPLogging() {
+        for (SensorPanel s : sensors) {
+            if (s.includeInUDPLog()) s.stopUDPLogging();
+        }
+        
+        jMenuItemStartUDPLog.setEnabled(true);
+        jMenuItemStopUDPLog.setEnabled(false);
     }
     
     public void refreshList() {
@@ -174,6 +193,9 @@ public class SensGUIMainFrame extends javax.swing.JFrame {
         jMenuLog = new javax.swing.JMenu();
         jMenuItemStartLog = new javax.swing.JMenuItem();
         jMenuItemStopLog = new javax.swing.JMenuItem();
+        jSeparator2 = new javax.swing.JPopupMenu.Separator();
+        jMenuItemStartUDPLog = new javax.swing.JMenuItem();
+        jMenuItemStopUDPLog = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("SINTEF Sensor GUI");
@@ -275,6 +297,23 @@ public class SensGUIMainFrame extends javax.swing.JFrame {
             }
         });
         jMenuLog.add(jMenuItemStopLog);
+        jMenuLog.add(jSeparator2);
+
+        jMenuItemStartUDPLog.setText("Start UDP Logging");
+        jMenuItemStartUDPLog.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemStartUDPLogActionPerformed(evt);
+            }
+        });
+        jMenuLog.add(jMenuItemStartUDPLog);
+
+        jMenuItemStopUDPLog.setText("Stop UDP Logging");
+        jMenuItemStopUDPLog.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemStopUDPLogActionPerformed(evt);
+            }
+        });
+        jMenuLog.add(jMenuItemStopUDPLog);
 
         jMenuBar1.add(jMenuLog);
 
@@ -337,6 +376,14 @@ public class SensGUIMainFrame extends javax.swing.JFrame {
         addSensor(new EMGPrototypeAdapter());
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
+    private void jMenuItemStartUDPLogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemStartUDPLogActionPerformed
+        startUDPLogging();
+    }//GEN-LAST:event_jMenuItemStartUDPLogActionPerformed
+
+    private void jMenuItemStopUDPLogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemStopUDPLogActionPerformed
+        stopUDPLogging();
+    }//GEN-LAST:event_jMenuItemStopUDPLogActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -381,11 +428,14 @@ public class SensGUIMainFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItemRMDisconnected;
     private javax.swing.JMenuItem jMenuItemRefresh;
     private javax.swing.JMenuItem jMenuItemStartLog;
+    private javax.swing.JMenuItem jMenuItemStartUDPLog;
     private javax.swing.JMenuItem jMenuItemStopLog;
+    private javax.swing.JMenuItem jMenuItemStopUDPLog;
     private javax.swing.JMenu jMenuLog;
     private javax.swing.JMenu jMenuView;
     private javax.swing.JPanel jPanelSensorList;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JPopupMenu.Separator jSeparator1;
+    private javax.swing.JPopupMenu.Separator jSeparator2;
     // End of variables declaration//GEN-END:variables
 }
