@@ -233,7 +233,7 @@ public class SensGUIMainFrame extends javax.swing.JFrame {
         });
         jMenuConnect.add(jMenuItemConnChestBelt);
 
-        jMenuItem1.setText("EMG Single Channel...");
+        jMenuItem1.setText("EMG Single/Dual Channel...");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem1ActionPerformed(evt);
