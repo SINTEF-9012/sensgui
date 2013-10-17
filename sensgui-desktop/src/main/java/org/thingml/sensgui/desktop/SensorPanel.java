@@ -45,8 +45,13 @@ public class SensorPanel extends javax.swing.JPanel implements SensGUI {
     
     public void startLogging(File base_folder) {
         if (!includeInLog()) return;
+        
+        System.err.println("startLogging(" + sensor.getSensorName() + ") 11");
+        
         String sName = sensor.getSensorName().replace(" ", "_").trim();
         File folder = new File(base_folder, sName);
+
+        System.err.println("startLogging(" + sensor.getSensorName() + ") 12");
         
         // To avoid overwriting an exiting folder (in case several sensors have the same names)
         int i=1;
@@ -55,6 +60,8 @@ public class SensorPanel extends javax.swing.JPanel implements SensGUI {
             i++;
         }
 
+        System.err.println("startLogging(" + sensor.getSensorName() + ") 13");
+        
         folder.mkdir();
         sensor.startLogging(folder);
         jCheckBoxLog.setEnabled(false);

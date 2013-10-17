@@ -68,17 +68,23 @@ public class SensGUIMainFrame extends javax.swing.JFrame {
             File f = new File(prefs.get("LogFolder", ""));
             if (f.exists() && f.isDirectory()) chooser.setCurrentDirectory(f);
         
+            System.err.println("startLogging() 1");
             do {
                 int result = chooser.showDialog(this, "Start Logging");
                 if (result != JFileChooser.APPROVE_OPTION) return;
             }
             while (!chooser.getSelectedFile().exists() || !chooser.getSelectedFile().isDirectory());
+            System.err.println("startLogging() 2");
             
             prefs.put("LogFolder", chooser.getSelectedFile().getAbsolutePath());
             
+            System.err.println("startLogging() 3");
+
             String sName = createSessionName();
             File base_folder = new File(chooser.getSelectedFile(), sName);
 
+            System.err.println("startLogging() 4");
+            
             // To avoid overwriting an exiting folder (in case several logs are created at the same time)
            int i=1;
            while (base_folder.exists()) {
@@ -86,8 +92,11 @@ public class SensGUIMainFrame extends javax.swing.JFrame {
                i++;
            }
 
+           System.err.println("startLogging() 5");
+           
            base_folder.mkdir();
            
+           System.err.println("startLogging() 6");
            
 
             for (SensorPanel s : sensors) {
@@ -95,6 +104,9 @@ public class SensGUIMainFrame extends javax.swing.JFrame {
             }
             jMenuItemStartLog.setEnabled(false);
             jMenuItemStopLog.setEnabled(true);
+
+            System.err.println("startLogging() 7");
+
         }
         catch(Exception e) {
             e.printStackTrace();

@@ -313,9 +313,13 @@ public class EMGPrototypeAdapter extends AbstractSensGUIAdapter implements Chest
     @Override
     public void startLogging(File folder) {
         if (file_logger != null) stopLogging();
+        System.err.println("startLogging(" + name + ") 21");
         file_logger = new ChestBeltFileLogger(folder, sensor, true);
+        System.err.println("startLogging(" + name + ") 22");
         sensor.addChestBeltListener(file_logger);
+        System.err.println("startLogging(" + name + ") 23");
         file_logger.startLoggingInFolder(folder);
+        System.err.println("startLogging(" + name + ") 24");
     }
 
     @Override
