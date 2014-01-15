@@ -31,6 +31,7 @@ import org.thingml.sensgui.adapters.DummySensGUIAdapter;
 import org.thingml.sensgui.adapters.EMGPrototypeAdapter;
 import org.thingml.sensgui.adapters.IsensUAdapter;
 import org.thingml.sensgui.adapters.SensGUIAdapter;
+import org.thingml.sensgui.adapters.OnyxAdapter;
 
 /**
  *
@@ -195,7 +196,8 @@ public class SensGUIMainFrame extends javax.swing.JFrame {
         jMenuConnect = new javax.swing.JMenu();
         jMenuItemConnISenseU = new javax.swing.JMenuItem();
         jMenuItemConnChestBelt = new javax.swing.JMenuItem();
-        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItemEMG = new javax.swing.JMenuItem();
+        jMenuItemOnyx = new javax.swing.JMenuItem();
         jMenuItemConnectDummy = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         jMenuItemDisconnectAll = new javax.swing.JMenuItem();
@@ -245,13 +247,21 @@ public class SensGUIMainFrame extends javax.swing.JFrame {
         });
         jMenuConnect.add(jMenuItemConnChestBelt);
 
-        jMenuItem1.setText("EMG Single/Dual Channel...");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        jMenuItemEMG.setText("EMG Single/Dual Channel...");
+        jMenuItemEMG.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
+                jMenuItemEMGActionPerformed(evt);
             }
         });
-        jMenuConnect.add(jMenuItem1);
+        jMenuConnect.add(jMenuItemEMG);
+
+        jMenuItemOnyx.setText("Nonin Onyx SpO2...");
+        jMenuItemOnyx.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemOnyxActionPerformed(evt);
+            }
+        });
+        jMenuConnect.add(jMenuItemOnyx);
 
         jMenuItemConnectDummy.setText("Dummy sensor...");
         jMenuItemConnectDummy.addActionListener(new java.awt.event.ActionListener() {
@@ -384,9 +394,9 @@ public class SensGUIMainFrame extends javax.swing.JFrame {
         stopLogging();
     }//GEN-LAST:event_jMenuItemStopLogActionPerformed
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+    private void jMenuItemEMGActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemEMGActionPerformed
         addSensor(new EMGPrototypeAdapter());
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
+    }//GEN-LAST:event_jMenuItemEMGActionPerformed
 
     private void jMenuItemStartUDPLogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemStartUDPLogActionPerformed
         startUDPLogging();
@@ -395,6 +405,10 @@ public class SensGUIMainFrame extends javax.swing.JFrame {
     private void jMenuItemStopUDPLogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemStopUDPLogActionPerformed
         stopUDPLogging();
     }//GEN-LAST:event_jMenuItemStopUDPLogActionPerformed
+
+    private void jMenuItemOnyxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemOnyxActionPerformed
+        addSensor(new OnyxAdapter());
+    }//GEN-LAST:event_jMenuItemOnyxActionPerformed
 
     /**
      * @param args the command line arguments
@@ -431,12 +445,13 @@ public class SensGUIMainFrame extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenu jMenuConnect;
     private javax.swing.JMenu jMenuFile;
-    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItemConnChestBelt;
     private javax.swing.JMenuItem jMenuItemConnISenseU;
     private javax.swing.JMenuItem jMenuItemConnectDummy;
     private javax.swing.JMenuItem jMenuItemDisconnectAll;
+    private javax.swing.JMenuItem jMenuItemEMG;
     private javax.swing.JMenuItem jMenuItemExit;
+    private javax.swing.JMenuItem jMenuItemOnyx;
     private javax.swing.JMenuItem jMenuItemRMDisconnected;
     private javax.swing.JMenuItem jMenuItemRefresh;
     private javax.swing.JMenuItem jMenuItemStartLog;
