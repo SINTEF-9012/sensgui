@@ -1,0 +1,7 @@
+         aliv 12.3.2014
+         
+         How to build a single distribution file
+         
+         1. Select SensGUI::Desktop, right click and selet 'Custom' , 'Goals...'
+         2. Type 'assembly:single' in goals
+         3. Press ok to build
