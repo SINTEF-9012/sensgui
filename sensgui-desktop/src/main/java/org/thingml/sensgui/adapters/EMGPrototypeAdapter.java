@@ -284,7 +284,7 @@ public class EMGPrototypeAdapter extends AbstractSensGUIAdapter implements Chest
     }
 
     @Override
-    public void timeSyncPong(int delay, int dtt, int dtr, int dts) {
+    public void timeSyncPong(int delay, int dtt, int dtr, int dts, long tsNoWrap) {
         for(SensGUI l : listeners) l.setPing(delay);
     }
 
@@ -299,7 +299,7 @@ public class EMGPrototypeAdapter extends AbstractSensGUIAdapter implements Chest
     }
 
     @Override
-    public void timeSyncLog(String time, long ts, long tmt, long tmr, long delay, long offs, long error, long errorSum, long zeroOffset, long regOffsMs, int skipped, long tsOffset) {
+    public void timeSyncLog(String time, long ts, long tmt, long tmr, long delay, long offs, long error, long errorSum, long zeroOffset, long regOffsMs, int skipped, long tsOffset, long ulimError) {
         
     }
 
