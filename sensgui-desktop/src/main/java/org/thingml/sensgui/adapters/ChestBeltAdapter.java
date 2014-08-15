@@ -20,6 +20,7 @@ import javax.swing.ImageIcon;
 import org.thingml.chestbelt.desktop.ChestBeltFileLogger;
 import org.thingml.chestbelt.desktop.ChestBeltUDPLogger;
 import org.thingml.chestbelt.desktop.ChestBeltMainFrame;
+import org.thingml.chestbelt.desktop.OrientationCalculator;
 import org.thingml.chestbelt.driver.ChestBelt;
 import org.thingml.chestbelt.driver.ChestBeltListener;
 import org.thingml.rtsync.core.ITimeSynchronizerLogger;
@@ -308,12 +309,16 @@ public class ChestBeltAdapter extends AbstractSensGUIAdapter implements ChestBel
     }
 
     protected ChestBeltFileLogger file_logger;
-    
+    private OrientationCalculator orientationCalculator;
     @Override
     public void startLogging(File folder) {
         if (file_logger != null) stopLogging();
         file_logger = new ChestBeltFileLogger(folder, sensor, true);
         sensor.addChestBeltListener(file_logger);
+        
+        orientationCalculator = new OrientationCalculator(sensor);
+        orientationCalculator.addOrientationCalculatorListener(file_logger);
+        
         file_logger.startLoggingInFolder(folder);
     }
 
@@ -322,6 +327,7 @@ public class ChestBeltAdapter extends AbstractSensGUIAdapter implements ChestBel
         if (file_logger != null) {
             file_logger.stopLogging();
             sensor.removeChestBeltListener(file_logger);   
+            orientationCalculator.removeOrientationCalculatorListener(file_logger);
         }
         file_logger = null;
     }
